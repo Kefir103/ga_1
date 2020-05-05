@@ -1,0 +1,11 @@
+{
+  "name": "ga_1",
+  "version": "1.0.0",
+  "description": "Лабораторная работа по Генетическим Алгоритмам 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Efim Pushkarev <pushkarevev@yandex.ru>",
+  "license": "ISC"
+}
