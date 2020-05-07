@@ -1,0 +1,39 @@
+.side-menu {
+    position: fixed;
+    display: block;
+    right: 0;
+    top: 0;
+    background: white;
+    box-shadow: 0 0 8px 2px lightgray;
+    min-width: 250px;
+    height: 100%;
+    padding: 5px 5px;
+    text-align: right;
+
+    p {
+        text-align: center;
+    }
+
+    .side-menu-input-container {
+        position: relative;
+        right: 0;
+
+        input {
+            width: 50px;
+            -moz-appearance: textfield;
+            margin: 5px;
+            box-sizing: border-box;
+            padding: 1px;
+            border: 1.25px solid gray;
+
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+        }
+
+    }
+
+
+}

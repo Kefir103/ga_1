@@ -1,6 +1,5 @@
 import React from 'react';
-import InputForm from './InputForm';
-import InfoForm from './InfoForm';
+import SideMenu from "./components/SideMenu";
 
 export default class App extends React.Component {
 
@@ -12,6 +11,7 @@ export default class App extends React.Component {
     render() {
         return (
             <div>
+                <SideMenu/>
             </div>
         );
     }
