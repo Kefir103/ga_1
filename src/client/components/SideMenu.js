@@ -8,11 +8,13 @@ export default class SideMenu extends Component {
             maxSpeed: 0,
             numOfNodes: 0,
             populationSize: 0,
+            mutationProbability: 0,
         };
 
         this.handleSpeedChange = this.handleSpeedChange.bind(this);
         this.handleSizeChange = this.handleSizeChange.bind(this);
         this.handlePopulationSizeChange = this.handlePopulationSizeChange.bind(this);
+        this.handleMutationProbabilityChange = this.handleMutationProbabilityChange.bind(this);
     }
 
     handleSpeedChange(event) {
@@ -26,6 +28,7 @@ export default class SideMenu extends Component {
         this.setState({
             maxSpeed: speed,
         });
+        this.props.speedChanged(speed);
     }
 
     handleSizeChange(event) {
@@ -39,6 +42,7 @@ export default class SideMenu extends Component {
         this.setState({
             numOfNodes: size,
         });
+        this.props.sizeChanged(size);
     }
 
     handlePopulationSizeChange(event) {
@@ -52,6 +56,21 @@ export default class SideMenu extends Component {
         this.setState({
             populationSize: populationSize,
         });
+        this.props.populationSizeChanged(populationSize);
+    }
+
+    handleMutationProbabilityChange(event) {
+        event.preventDefault();
+        const mutationProbability = Number(event.target.value);
+        if (mutationProbability < 0) {
+            document.getElementById('input-mutation-prob').style.border = '1.25px solid #e42d2d';
+            return;
+        }
+        document.getElementById('input-mutation-prob').style.border = '1.25px solid gray';
+        this.setState({
+            mutationProbability: mutationProbability,
+        });
+        this.props.mutationProbabilityChanged(mutationProbability);
     }
 
     render() {
@@ -80,7 +99,12 @@ export default class SideMenu extends Component {
                     />
                 </div>
                 <div className={'side-menu-input-container'}>
-                    Вероятность мутации: <input type={'number'} />
+                    Вероятность мутации:{' '}
+                    <input
+                        type={'number'}
+                        id={'input-mutation-prob'}
+                        onChange={this.handleMutationProbabilityChange}
+                    />
                 </div>
             </div>
         );
