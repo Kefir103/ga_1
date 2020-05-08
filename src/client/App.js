@@ -1,6 +1,7 @@
 import React from 'react';
 import SideMenu from './components/SideMenu';
 import GraphMatrix from './components/GraphMatrix';
+import GraphImage from './components/GraphImage';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -13,7 +14,7 @@ export default class App extends React.Component {
             mutationProbability: 0,
             graphMatrix: [],
             startPoint: 0,
-            endPoint: 0,
+            endPoint: 1,
         };
 
         this.handleSpeedChange = this.handleSpeedChange.bind(this);
@@ -22,6 +23,7 @@ export default class App extends React.Component {
         this.handleMutationProbabilityChange = this.handleMutationProbabilityChange.bind(this);
         this.handleStartPointChange = this.handleStartPointChange.bind(this);
         this.handleEndPointChange = this.handleEndPointChange.bind(this);
+        this.handleGraphMatrixChange = this.handleGraphMatrixChange.bind(this);
     }
 
     handleSpeedChange(speed) {
@@ -50,13 +52,19 @@ export default class App extends React.Component {
 
     handleStartPointChange(startPoint) {
         this.setState({
-            startPoint: startPoint
+            startPoint: startPoint,
         });
     }
 
     handleEndPointChange(endPoint) {
         this.setState({
-            endPoint: endPoint
+            endPoint: endPoint,
+        });
+    }
+
+    handleGraphMatrixChange(graphMatrix) {
+        this.setState({
+           graphMatrix: graphMatrix
         });
     }
 
@@ -73,7 +81,20 @@ export default class App extends React.Component {
                 />
                 <main className={'main'}>
                     {this.state.numOfNodes !== 0 ? (
-                        <GraphMatrix graphSize={this.state.numOfNodes} maxSpeed={this.state.maxSpeed}/>
+                        <>
+                            <GraphMatrix
+                                graphSize={this.state.numOfNodes}
+                                maxSpeed={this.state.maxSpeed}
+                                graphChanged={this.handleGraphMatrixChange}
+                            />
+                            <GraphImage
+                                numOfNodes={this.state.numOfNodes}
+                                graph={this.state.graphMatrix}
+                                startPoint={this.state.startPoint}
+                                endPoint={this.state.endPoint}
+                                maxSpeed={this.state.maxSpeed}
+                            />
+                        </>
                     ) : (
                         ''
                     )}

@@ -144,6 +144,7 @@ export default class SideMenu extends Component {
                         type={'number'}
                         id={'input-start-point'}
                         onChange={this.handleStartPointChange}
+                        defaultValue={this.state.startPoint}
                     />
                 </div>
                 <div className={'side-menu-input-container'}>
@@ -152,6 +153,7 @@ export default class SideMenu extends Component {
                         type={'number'}
                         id={'input-end-point'}
                         onChange={this.handleEndPointChange}
+                        defaultValue={this.state.endPoint}
                     />
                 </div>
             </aside>

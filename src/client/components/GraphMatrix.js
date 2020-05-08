@@ -47,6 +47,7 @@ export default class GraphMatrix extends Component {
         this.setState({
             graphMatrix: graphMatrix,
         });
+        this.props.graphChanged(graphMatrix);
     }
 
     handleGraphElementChanged(event, i, j) {
