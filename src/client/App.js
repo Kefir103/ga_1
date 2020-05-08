@@ -1,5 +1,6 @@
 import React from 'react';
 import SideMenu from './components/SideMenu';
+import GraphMatrix from './components/GraphMatrix';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -10,6 +11,7 @@ export default class App extends React.Component {
             numOfNodes: 0,
             populationSize: 0,
             mutationProbability: 0,
+            graphMatrix: [],
         };
 
         this.handleSpeedChange = this.handleSpeedChange.bind(this);
@@ -44,14 +46,21 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <div>
+            <>
                 <SideMenu
                     speedChanged={this.handleSpeedChange}
                     sizeChanged={this.handleSizeChange}
                     mutationProbabilityChanged={this.handleMutationProbabilityChange}
                     populationSizeChanged={this.handlePopulationSizeChange}
                 />
-            </div>
+                <main className={'main'}>
+                    {this.state.numOfNodes !== 0 ? (
+                        <GraphMatrix graphSize={this.state.numOfNodes} maxSpeed={this.state.maxSpeed}/>
+                    ) : (
+                        ''
+                    )}
+                </main>
+            </>
         );
     }
 }

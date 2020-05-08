@@ -75,7 +75,7 @@ export default class SideMenu extends Component {
 
     render() {
         return (
-            <div className={'side-menu'}>
+            <aside className={'side-menu'}>
                 <p>Генетические алгоритмы №1</p>
                 <hr />
                 <div className={'side-menu-input-container'}>
@@ -106,7 +106,7 @@ export default class SideMenu extends Component {
                         onChange={this.handleMutationProbabilityChange}
                     />
                 </div>
-            </div>
+            </aside>
         );
     }
 }

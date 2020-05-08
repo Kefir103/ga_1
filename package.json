@@ -22,7 +22,8 @@
         "react": "^16.13.1",
         "react-d3-graph": "^2.4.1",
         "react-dom": "^16.13.1",
-        "webpack": "^4.43.0"
+        "webpack": "^4.43.0",
+        "random": "^2.2.0"
     },
     "devDependencies": {
         "@babel/core": "^7.9.0",

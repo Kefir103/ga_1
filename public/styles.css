@@ -5,7 +5,7 @@
   top: 0;
   background: white;
   box-shadow: 0 0 8px 2px lightgray;
-  min-width: 250px;
+  width: 260px;
   height: 100%;
   padding: 5px 5px;
   text-align: right; }
@@ -25,9 +25,21 @@
         -webkit-appearance: none;
         margin: 0; }
 
+.graph-matrix-element {
+  -moz-appearance: textfield;
+  box-sizing: border-box;
+  border: 1.25px solid gray;
+  text-align: center; }
+  .graph-matrix-element::-webkit-outer-spin-button, .graph-matrix-element::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; }
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   background: #f4f4f4; }
+
+.main {
+  padding-right: 265px; }
