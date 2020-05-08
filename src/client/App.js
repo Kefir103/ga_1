@@ -12,12 +12,16 @@ export default class App extends React.Component {
             populationSize: 0,
             mutationProbability: 0,
             graphMatrix: [],
+            startPoint: 0,
+            endPoint: 0,
         };
 
         this.handleSpeedChange = this.handleSpeedChange.bind(this);
         this.handleSizeChange = this.handleSizeChange.bind(this);
         this.handlePopulationSizeChange = this.handlePopulationSizeChange.bind(this);
         this.handleMutationProbabilityChange = this.handleMutationProbabilityChange.bind(this);
+        this.handleStartPointChange = this.handleStartPointChange.bind(this);
+        this.handleEndPointChange = this.handleEndPointChange.bind(this);
     }
 
     handleSpeedChange(speed) {
@@ -44,6 +48,18 @@ export default class App extends React.Component {
         });
     }
 
+    handleStartPointChange(startPoint) {
+        this.setState({
+            startPoint: startPoint
+        });
+    }
+
+    handleEndPointChange(endPoint) {
+        this.setState({
+            endPoint: endPoint
+        });
+    }
+
     render() {
         return (
             <>
@@ -52,6 +68,8 @@ export default class App extends React.Component {
                     sizeChanged={this.handleSizeChange}
                     mutationProbabilityChanged={this.handleMutationProbabilityChange}
                     populationSizeChanged={this.handlePopulationSizeChange}
+                    startChanged={this.handleStartPointChange}
+                    endChanged={this.handleEndPointChange}
                 />
                 <main className={'main'}>
                     {this.state.numOfNodes !== 0 ? (

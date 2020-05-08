@@ -18,7 +18,9 @@ export default class GraphMatrix extends Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        this.fillGraphMatrix(nextProps.graphSize, nextProps.maxSpeed);
+        if (this.props.graphSize !== nextProps.graphSize || this.props.maxSpeed !== nextProps.maxSpeed) {
+            this.fillGraphMatrix(nextProps.graphSize, nextProps.maxSpeed);
+        }
     }
 
     fillGraphMatrix(size, speed) {
