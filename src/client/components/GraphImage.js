@@ -58,7 +58,7 @@ export default class GraphImage extends React.Component {
                     data.nodes.push({ id: i });
                 }
                 for (let j = i + 1; j < props.graph[i].length; ++j) {
-                    if (props.graph[i][j] !== props.maxSpeed * 100) {
+                    if (props.graph[i][j] < props.maxSpeed * 100) {
                         data.links.push({ source: i, target: j });
                     }
                 }
@@ -74,6 +74,7 @@ export default class GraphImage extends React.Component {
             <>
                 <p>Граф сети</p>
                 <Graph id={'graph-image'} data={this.state.data} config={this.props.config} />
+                <hr />
             </>
         );
     }

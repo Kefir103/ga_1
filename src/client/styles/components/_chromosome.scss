@@ -1,0 +1,10 @@
+.chromosome {
+    display: inline-flex;
+    border: 1px solid black;
+    flex-direction: row;
+
+    input {
+        text-align: center;
+        max-width: 50px;
+    }
+}

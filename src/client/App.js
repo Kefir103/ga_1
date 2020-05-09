@@ -2,6 +2,7 @@ import React from 'react';
 import SideMenu from './components/SideMenu';
 import GraphMatrix from './components/GraphMatrix';
 import GraphImage from './components/GraphImage';
+import Population from './components/Population';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -15,6 +16,7 @@ export default class App extends React.Component {
             graphMatrix: [],
             startPoint: 0,
             endPoint: 1,
+            population: [],
         };
 
         this.handleSpeedChange = this.handleSpeedChange.bind(this);
@@ -24,6 +26,7 @@ export default class App extends React.Component {
         this.handleStartPointChange = this.handleStartPointChange.bind(this);
         this.handleEndPointChange = this.handleEndPointChange.bind(this);
         this.handleGraphMatrixChange = this.handleGraphMatrixChange.bind(this);
+        this.handlePopulationChange = this.handlePopulationChange.bind(this);
     }
 
     handleSpeedChange(speed) {
@@ -33,9 +36,9 @@ export default class App extends React.Component {
     }
 
     handleSizeChange(graphSize) {
-        this.setState({
+        this.setState(() => ({
             numOfNodes: graphSize,
-        });
+        }));
     }
 
     handlePopulationSizeChange(populationSize) {
@@ -64,7 +67,13 @@ export default class App extends React.Component {
 
     handleGraphMatrixChange(graphMatrix) {
         this.setState({
-           graphMatrix: graphMatrix
+            graphMatrix: graphMatrix,
+        });
+    }
+
+    handlePopulationChange(population) {
+        this.setState({
+            population: population
         });
     }
 
@@ -95,6 +104,19 @@ export default class App extends React.Component {
                                 maxSpeed={this.state.maxSpeed}
                             />
                         </>
+                    ) : (
+                        ''
+                    )}
+                    {this.state.populationSize !== 0 ? (
+                        <Population
+                            key={'input-population'}
+                            populationChanged={this.handlePopulationChange}
+                            populationDesc={'Исходная популяция'}
+                            populationSize={this.state.populationSize}
+                            graphMatrix={this.state.graphMatrix}
+                            startPoint={this.state.startPoint}
+                            endPoint={this.state.endPoint}
+                        />
                     ) : (
                         ''
                     )}
