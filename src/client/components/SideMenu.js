@@ -1,162 +1,218 @@
-import React, { Component } from 'react';
+import React, { useContext, useState } from 'react';
+import { AppContext } from '../reducer/appReducer';
+import { ActionTypes } from '../reducer/actionTypes';
 
-export default class SideMenu extends Component {
-    constructor(props) {
-        super(props);
+export function SideMenu(props) {
+    const { state, dispatch } = useContext(AppContext);
 
-        this.state = {
-            maxSpeed: 0,
-            numOfNodes: 0,
-            populationSize: 0,
-            mutationProbability: 0,
-            startPoint: 0,
-            endPoint: 1,
-        };
+    const [correctInputs, setCorrectInputs] = useState({
+        isSpeedInputCorrect: true,
+        isNumOfNodesInputCorrect: true,
+        isPopulationSizeInputCorrect: true,
+        isMutationProbabilityInputCorrect: true,
+        isStartPointInputCorrect: true,
+        isEndPointInputCorrect: true,
+    });
 
-        this.handleSpeedChange = this.handleSpeedChange.bind(this);
-        this.handleSizeChange = this.handleSizeChange.bind(this);
-        this.handlePopulationSizeChange = this.handlePopulationSizeChange.bind(this);
-        this.handleMutationProbabilityChange = this.handleMutationProbabilityChange.bind(this);
-        this.handleStartPointChange = this.handleStartPointChange.bind(this);
-        this.handleEndPointChange = this.handleEndPointChange.bind(this);
-    }
-
-    handleSpeedChange(event) {
+    function handleSpeedChange(event) {
         event.preventDefault();
         const speed = Number(event.target.value);
+
         if (speed < 0) {
-            document.getElementById('input-max-speed').style.border = '1.25px solid #e42d2d';
+            setCorrectInputs({
+                ...correctInputs,
+                isSpeedInputCorrect: false,
+            });
             return;
         }
-        document.getElementById('input-max-speed').style.border = '1.25px solid gray';
-        this.setState({
-            maxSpeed: speed,
+
+        setCorrectInputs({
+            ...correctInputs,
+            isSpeedInputCorrect: true,
         });
-        this.props.speedChanged(speed);
+
+        dispatch({
+            type: ActionTypes.SET_MAX_SPEED,
+            payload: speed,
+        });
     }
 
-    handleSizeChange(event) {
+    function handleNumOfNodesChange(event) {
         event.preventDefault();
         const size = Number(event.target.value);
         if (size < 0) {
-            document.getElementById('input-size').style.border = '1.25px solid #e42d2d';
+            setCorrectInputs({
+                ...correctInputs,
+                isNumOfNodesInputCorrect: false,
+            });
+
             return;
         }
-        document.getElementById('input-size').style.border = '1.25px solid gray';
-        this.setState({
-            numOfNodes: size,
+
+        setCorrectInputs({
+            ...correctInputs,
+            isNumOfNodesInputCorrect: true,
         });
-        this.props.sizeChanged(size);
+
+        dispatch({
+            type: ActionTypes.SET_NUM_OF_NODES,
+            payload: size,
+        });
     }
 
-    handlePopulationSizeChange(event) {
+    function handlePopulationSizeChange(event) {
         event.preventDefault();
         const populationSize = Number(event.target.value);
         if (populationSize < 0) {
-            document.getElementById('input-population-size').style.border = '1.25px solid #e42d2d';
+            setCorrectInputs({
+                ...correctInputs,
+                isPopulationSizeInputCorrect: false,
+            });
             return;
         }
-        document.getElementById('input-population-size').style.border = '1.25px solid gray';
-        this.setState({
-            populationSize: populationSize,
+
+        setCorrectInputs({
+            ...correctInputs,
+            isPopulationSizeInputCorrect: true,
         });
-        this.props.populationSizeChanged(populationSize);
+
+        dispatch({
+            type: ActionTypes.SET_POPULATION_SIZE,
+            payload: populationSize,
+        });
     }
 
-    handleMutationProbabilityChange(event) {
+    function handleMutationProbabilityChange(event) {
         event.preventDefault();
         const mutationProbability = Number(event.target.value);
         if (mutationProbability < 0) {
-            document.getElementById('input-mutation-prob').style.border = '1.25px solid #e42d2d';
+            setCorrectInputs({
+                ...correctInputs,
+                isMutationProbabilityInputCorrect: false,
+            });
+
             return;
         }
-        document.getElementById('input-mutation-prob').style.border = '1.25px solid gray';
-        this.setState({
-            mutationProbability: mutationProbability,
+
+        setCorrectInputs({
+            ...correctInputs,
+            isMutationProbabilityInputCorrect: true,
         });
-        this.props.mutationProbabilityChanged(mutationProbability);
+
+        dispatch({
+            type: ActionTypes.SET_MUTATION_PROBABILITY,
+            payload: mutationProbability,
+        });
     }
 
-    handleStartPointChange(event) {
+    function handleStartPointChange(event) {
         event.preventDefault();
         const startPoint = Number(event.target.value);
-        if (startPoint < 0 || startPoint >= this.state.numOfNodes || startPoint === this.state.endPoint) {
-            document.getElementById('input-start-point').style.border = '1.25px solid #e42d2d';
+        if (startPoint < 0 || startPoint >= state.numOfNodes || startPoint === state.endPoint) {
+            setCorrectInputs({
+                ...correctInputs,
+                isStartPointInputCorrect: false,
+            });
+
             return;
         }
-        document.getElementById('input-start-point').style.border = '1.25px solid gray';
-        this.setState({
-            startPoint: startPoint
+
+        setCorrectInputs({
+            ...correctInputs,
+            isStartPointInputCorrect: true,
         });
-        this.props.startChanged(startPoint);
+
+        dispatch({
+            type: ActionTypes.SET_START_POINT,
+            payload: startPoint,
+        });
     }
 
-    handleEndPointChange(event) {
+    function handleEndPointChange(event) {
         event.preventDefault();
         const endPoint = Number(event.target.value);
-        if (endPoint < 0 || endPoint >= this.state.numOfNodes || endPoint === this.state.startPoint) {
-            document.getElementById('input-end-point').style.border = '1.25px solid #e42d2d';
+        if (endPoint < 0 || endPoint >= state.numOfNodes || endPoint === state.startPoint) {
+            setCorrectInputs({
+                ...correctInputs,
+                isEndPointInputCorrect: false,
+            });
+
             return;
         }
-        document.getElementById('input-end-point').style.border = '1.25px solid gray';
-        this.setState({
-            endPoint: endPoint
+
+        setCorrectInputs({
+            ...correctInputs,
+            isEndPointInputCorrect: true,
         });
-        this.props.endChanged(endPoint);
+
+        dispatch({
+            type: ActionTypes.SET_END_POINT,
+            payload: endPoint,
+        });
     }
 
-    render() {
-        return (
-            <aside className={'side-menu'}>
-                <p>Генетические алгоритмы №1</p>
-                <hr />
-                <div className={'side-menu-input-container'}>
-                    Пропускная способность:{' '}
-                    <input
-                        type={'number'}
-                        id={'input-max-speed'}
-                        onChange={this.handleSpeedChange}
-                    />
-                </div>
-                <div className={'side-menu-input-container'}>
-                    Кол-во вершин:{' '}
-                    <input type={'number'} id={'input-size'} onChange={this.handleSizeChange} />
-                </div>
-                <div className={'side-menu-input-container'}>
-                    Размер популяции:{' '}
-                    <input
-                        type={'number'}
-                        id={'input-population-size'}
-                        onChange={this.handlePopulationSizeChange}
-                    />
-                </div>
-                <div className={'side-menu-input-container'}>
-                    Вероятность мутации:{' '}
-                    <input
-                        type={'number'}
-                        id={'input-mutation-prob'}
-                        onChange={this.handleMutationProbabilityChange}
-                    />
-                </div>
-                <div className={'side-menu-input-container'}>
-                    Начальная точка:{' '}
-                    <input
-                        type={'number'}
-                        id={'input-start-point'}
-                        onChange={this.handleStartPointChange}
-                        defaultValue={this.state.startPoint}
-                    />
-                </div>
-                <div className={'side-menu-input-container'}>
-                    Конечная точка:{' '}
-                    <input
-                        type={'number'}
-                        id={'input-end-point'}
-                        onChange={this.handleEndPointChange}
-                        defaultValue={this.state.endPoint}
-                    />
-                </div>
-            </aside>
-        );
-    }
+    return (
+        <aside className={'side-menu'}>
+            <p>Генетические алгоритмы №1</p>
+            <hr />
+            <div className={'side-menu-input-container'}>
+                Пропускная способность:{' '}
+                <input
+                    type={'number'}
+                    id={'input-max-speed'}
+                    className={correctInputs.isSpeedInputCorrect ? '' : 'incorrect-value'}
+                    onChange={handleSpeedChange}
+                />
+            </div>
+            <div className={'side-menu-input-container'}>
+                Кол-во вершин:{' '}
+                <input
+                    type={'number'}
+                    id={'input-num-of-nodes'}
+                    className={correctInputs.isNumOfNodesInputCorrect ? '' : 'incorrect-value'}
+                    onChange={handleNumOfNodesChange}
+                />
+            </div>
+            <div className={'side-menu-input-container'}>
+                Размер популяции:{' '}
+                <input
+                    type={'number'}
+                    id={'input-population-size'}
+                    className={correctInputs.isPopulationSizeInputCorrect ? '' : 'incorrect-value'}
+                    onChange={handlePopulationSizeChange}
+                />
+            </div>
+            <div className={'side-menu-input-container'}>
+                Вероятность мутации:{' '}
+                <input
+                    type={'number'}
+                    id={'input-mutation-prob'}
+                    className={
+                        correctInputs.isMutationProbabilityInputCorrect ? '' : 'incorrect-value'
+                    }
+                    onChange={handleMutationProbabilityChange}
+                />
+            </div>
+            <div className={'side-menu-input-container'}>
+                Начальная точка:{' '}
+                <input
+                    type={'number'}
+                    id={'input-start-point'}
+                    className={correctInputs.isStartPointInputCorrect ? '' : 'incorrect-value'}
+                    onChange={handleStartPointChange}
+                    defaultValue={state.startPoint}
+                />
+            </div>
+            <div className={'side-menu-input-container'}>
+                Конечная точка:{' '}
+                <input
+                    type={'number'}
+                    id={'input-end-point'}
+                    className={correctInputs.isEndPointInputCorrect ? '' : 'incorrect-value'}
+                    onChange={handleEndPointChange}
+                    defaultValue={state.endPoint}
+                />
+            </div>
+        </aside>
+    );
 }

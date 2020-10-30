@@ -1,6 +1,7 @@
 @import 'components/sidemenu';
 @import 'components/graphMatrix';
-@import 'components/_chromosome.scss';
+@import 'components/chromosome';
+@import 'components/population';
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',

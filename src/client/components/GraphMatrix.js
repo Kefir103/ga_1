@@ -1,29 +1,16 @@
-import React, { Component } from 'react';
+import React, { useContext, useEffect } from 'react';
 import random from 'random';
+import { AppContext } from '../reducer/appReducer';
+import { ActionTypes } from '../reducer/actionTypes';
 
-export default class GraphMatrix extends Component {
-    constructor(props) {
-        super(props);
+export function GraphMatrix(props) {
+    const { state, dispatch } = useContext(AppContext);
 
-        this.state = {
-            graphMatrix: [],
-        };
+    useEffect(() => {
+        fillGraphMatrix(state.numOfNodes, state.maxSpeed);
+    }, [state.numOfNodes, state.maxSpeed]);
 
-        this.fillGraphMatrix = this.fillGraphMatrix.bind(this);
-        this.handleGraphElementChanged = this.handleGraphElementChanged.bind(this);
-    }
-
-    componentDidMount() {
-        this.fillGraphMatrix(this.props.graphSize, this.props.maxSpeed);
-    }
-
-    componentWillReceiveProps(nextProps, nextContext) {
-        if (this.props.graphSize !== nextProps.graphSize || this.props.maxSpeed !== nextProps.maxSpeed) {
-            this.fillGraphMatrix(nextProps.graphSize, nextProps.maxSpeed);
-        }
-    }
-
-    fillGraphMatrix(size, speed) {
+    function fillGraphMatrix(size, speed) {
         const graphMatrix = new Array(size);
 
         for (let i = 0; i < graphMatrix.length; ++i) {
@@ -44,50 +31,52 @@ export default class GraphMatrix extends Component {
                 }
             }
         }
-        this.setState({
-            graphMatrix: graphMatrix,
+
+        dispatch({
+            type: ActionTypes.SET_GRAPH_MATRIX,
+            payload: graphMatrix,
         });
-        this.props.graphChanged(graphMatrix);
     }
 
-    handleGraphElementChanged(event, i, j) {
+    function handleGraphElementChanged(event, i, j) {
         event.preventDefault();
         const element = Number(event.target.value);
-        const graphMatrix = this.state.graphMatrix;
+        const graphMatrix = state.graphMatrix;
         graphMatrix[i][j] = element;
         event.target.value = element;
-        this.setState({
-            graphMatrix: graphMatrix
+
+        dispatch({
+            type: ActionTypes.SET_GRAPH_MATRIX,
+            payload: graphMatrix,
         });
     }
 
-    render() {
-        return (
-            <>
-                <p>Матрица графа</p>
-                <div
-                    id={'graph-matrix'}
-                    style={{
-                        display: 'inline-grid',
-                        gridTemplateRows: `repeat(${this.props.graphSize}, 40px)`,
-                        gridTemplateColumns: `repeat(${this.props.graphSize}, 40px`,
-                        gridGap: '3px',
-                    }}>
-                    {this.state.graphMatrix.map((array, i) => {
-                        return array.map((value, j) => {
-                            return (
-                                <input
-                                    type={'text'}
-                                    className={'graph-matrix-element'}
-                                    value={value}
-                                    onChange={(event) => this.handleGraphElementChanged(event, i, j)}
-                                />
-                            );
-                        });
-                    })}
-                </div>
-                <hr />
-            </>
-        );
-    }
+    return (
+        <>
+            <p>Матрица графа</p>
+            <div
+                id={'graph-matrix'}
+                style={{
+                    display: 'inline-grid',
+                    gridTemplateRows: `repeat(${state.numOfNodes}, 40px)`,
+                    gridTemplateColumns: `repeat(${state.numOfNodes}, 40px)`,
+                    gridGap: '3px',
+                }}>
+                {state.graphMatrix.map((array, i) => {
+                    return array.map((value, j) => {
+                        return (
+                            <input
+                                key={`${i} ${j}`}
+                                type={'text'}
+                                className={'graph-matrix-element'}
+                                value={value}
+                                onChange={(event) => handleGraphElementChanged(event, i, j)}
+                            />
+                        );
+                    });
+                })}
+            </div>
+            <hr />
+        </>
+    );
 }

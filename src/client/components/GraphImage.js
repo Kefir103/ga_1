@@ -1,81 +1,66 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Graph } from 'react-d3-graph';
+import { AppContext } from '../reducer/appReducer';
 
-export default class GraphImage extends React.Component {
-    static defaultProps = {
-        config: {
-            nodeHighlightBehavior: true,
-            linkHighlightBehavior: true,
-            node: {
-                color: 'gray',
-                size: 500,
-                highlightStrokeColor: 'blue',
-                fontSize: 14,
-                highlightFontSize: 14,
-            },
-            link: {
-                highlightColor: 'blue',
-            },
-            minZoom: 1,
-            maxZoom: 1,
-            linkStrength: 1.5,
+export function GraphImage(props) {
+    const { state, dispatch } = useContext(AppContext);
+
+    const graphConfig = {
+        nodeHighlightBehavior: true,
+        linkHighlightBehavior: true,
+        node: {
+            color: 'gray',
+            size: 500,
+            highlightStrokeColor: 'blue',
+            fontSize: 14,
+            highlightFontSize: 14,
         },
+        link: {
+            highlightColor: 'blue',
+        },
+        minZoom: 1,
+        maxZoom: 1,
+        linkStrength: 1.5,
     };
 
-    constructor(props) {
-        super(props);
+    const [graphData, setGraphData] = useState(null);
 
-        this.state = {
-            data: {
-                nodes: [{ id: 1 }],
-                links: [],
-            },
-        };
+    useEffect(() => {
+        handleGraphDataChanged();
+    }, [state.graphMatrix]);
 
-        this.handleGraphDataChanged = this.handleGraphDataChanged.bind(this);
-    }
-
-    componentDidMount() {
-        this.handleGraphDataChanged(this.props);
-    }
-
-    componentWillReceiveProps(nextProps, nextContext) {
-        this.handleGraphDataChanged(nextProps);
-    }
-
-    handleGraphDataChanged(props) {
-        if (props.graph.length !== 0) {
+    function handleGraphDataChanged() {
+        if (state.graphMatrix.length !== 0) {
             const data = {
                 nodes: [],
                 links: [],
             };
-            for (let i = 0; i < props.graph.length; ++i) {
-                if (i === props.startPoint) {
+
+            for (let i = 0; i < state.graphMatrix.length; ++i) {
+                if (i === state.startPoint) {
                     data.nodes.push({ id: i, color: 'green' });
-                } else if (i === props.endPoint) {
+                } else if (i === state.endPoint) {
                     data.nodes.push({ id: i, color: 'red' });
                 } else {
                     data.nodes.push({ id: i });
                 }
-                for (let j = i + 1; j < props.graph[i].length; ++j) {
-                    if (props.graph[i][j] < props.maxSpeed * 100) {
+
+                for (let j = i + 1; j < state.graphMatrix[i].length; ++j) {
+                    if (state.graphMatrix[i][j] < state.maxSpeed * 100) {
                         data.links.push({ source: i, target: j });
                     }
                 }
             }
-            this.setState({
-                data: data,
-            });
+
+            setGraphData(data);
         }
     }
 
-    render() {
-        return (
-            <>
-                <p>Граф сети</p>
-                <Graph id={'graph-image'} data={this.state.data} config={this.props.config} />
-                <hr />
-            </>
-        );
-    }
+    return (
+        <>
+            <p>Граф сети</p>
+            {graphData && <Graph id={'graph-image'} data={graphData} config={graphConfig} />}
+            <hr />
+        </>
+    );
 }

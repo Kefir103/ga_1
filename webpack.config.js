@@ -24,7 +24,7 @@ module.exports = {
         ]
     },
     devServer: {
-        port: 3000,
+        port: 3010,
         hot: true,
         open: true,
         proxy: {

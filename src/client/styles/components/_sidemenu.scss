@@ -25,15 +25,17 @@
             box-sizing: border-box;
             padding: 1px;
             border: 1.25px solid gray;
+            outline: none;
 
             &::-webkit-outer-spin-button,
             &::-webkit-inner-spin-button {
                 -webkit-appearance: none;
                 margin: 0;
             }
+
+            &.incorrect-value {
+                border: 1.25px solid #e42d2d;
+            }
         }
-
     }
-
-
 }

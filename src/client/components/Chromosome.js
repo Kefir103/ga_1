@@ -1,48 +1,49 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import random from 'random';
+import { AppContext } from '../reducer/appReducer';
+import { ActionTypes } from '../reducer/actionTypes';
 
-export default class Chromosome extends React.Component {
-    constructor(props) {
-        super(props);
+export function Chromosome(props) {
+    const { state, dispatch } = useContext(AppContext);
 
-        this.state = {
-            chromosome: {
-                genArr: [],
-                fitness: 0,
-            },
-        };
+    const [chromosome, setChromosome] = useState({
+        genArr: [],
+        fitness: 0,
+    });
 
-        this.fillChromosome = this.fillChromosome.bind(this);
-    }
+    useEffect(() => {
+        fillChromosome(state.graphMatrix, state.startPoint, state.endPoint);
+    }, [state.graphMatrix, state.startPoint, state.endPoint]);
 
-    componentDidMount() {
-        this.fillChromosome(this.props.graph, this.props.startPoint, this.props.endPoint);
-    }
+    function fillChromosome(graph, startPoint, endPoint) {
+        const newPopulation = state.population;
 
-    fillChromosome(graph, startPoint, endPoint) {
-        const chromosome = {
+        const filledChromosome = {
             genArr: [],
             fitness: 0,
         };
 
-        chromosome.genArr.push(startPoint);
+        filledChromosome.genArr.push(startPoint);
 
         for (let i = 1; i < graph.length - 1; ++i) {
-            chromosome.genArr.push(random.integer(0, graph.length - 1));
+            filledChromosome.genArr.push(random.integer(0, graph.length - 1));
         }
 
-        chromosome.genArr.push(endPoint);
+        filledChromosome.genArr.push(endPoint);
 
-        chromosome.fitness = this.fitnessFunction(graph, chromosome.genArr);
+        filledChromosome.fitness = fitnessFunction(graph, filledChromosome.genArr);
 
-        this.setState({
-            chromosome: chromosome,
+        newPopulation.push(filledChromosome);
+
+        setChromosome(filledChromosome);
+
+        dispatch({
+            type: ActionTypes.SET_POPULATION,
+            payload: newPopulation,
         });
-
-        this.props.handlePopulation(chromosome);
     }
 
-    fitnessFunction(graph, genArr) {
+    function fitnessFunction(graph, genArr) {
         let sum = 0;
 
         for (let i = 1; i < genArr.length; ++i) {
@@ -52,19 +53,25 @@ export default class Chromosome extends React.Component {
         return sum;
     }
 
-    render() {
-        return [
-            <p>Хромосома {this.props.index} (F = {this.state.chromosome.fitness})</p>,
-            <div className={'chromosome'}>
-                {this.state.chromosome.genArr.length !== 0
-                    ? this.state.chromosome.genArr.map((gen, index) => {
-                          if (index === 0 || index === this.state.chromosome.genArr.length - 1) {
-                              return <input type={'text'} value={gen} />;
-                          }
-                          return <input type={'text'} value={gen} />;
-                      })
-                    : ''}
-            </div>,
-        ];
-    }
+    return (
+        chromosome.genArr.length && (
+            <div className={'chromosome__wrapper'}>
+                <p className={'chromosome__info'}>
+                    Хромосома {props.index} (F = {chromosome.fitness})
+                </p>
+                <div className={'chromosome'}>
+                    {chromosome.genArr.length !== 0 &&
+                        chromosome.genArr.map((gen, index) => {
+                            return (
+                                <input
+                                    key={`Gen ${index} (${chromosome.fitness})`}
+                                    type={'text'}
+                                    value={gen}
+                                />
+                            );
+                        })}
+                </div>
+            </div>
+        )
+    );
 }

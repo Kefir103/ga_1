@@ -20,10 +20,13 @@
       margin: 5px;
       box-sizing: border-box;
       padding: 1px;
-      border: 1.25px solid gray; }
+      border: 1.25px solid gray;
+      outline: none; }
       .side-menu .side-menu-input-container input::-webkit-outer-spin-button, .side-menu .side-menu-input-container input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0; }
+      .side-menu .side-menu-input-container input.incorrect-value {
+        border: 1.25px solid #e42d2d; }
 
 .graph-matrix-element {
   -moz-appearance: textfield;
@@ -34,13 +37,28 @@
     -webkit-appearance: none;
     margin: 0; }
 
+.chromosome__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; }
+
 .chromosome {
   display: inline-flex;
   border: 1px solid black;
-  flex-direction: row; }
+  flex-direction: row;
+  margin: 5px auto; }
   .chromosome input {
     text-align: center;
-    max-width: 50px; }
+    width: 35px;
+    height: 35px; }
+
+.chromosome__info {
+  display: block;
+  margin: 10px auto; }
+
+.population {
+  display: flex;
+  flex-direction: column; }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
